@@ -6,12 +6,13 @@ Breve descrizione, referenza
 ```
 pip install acdc-nn
 ```
+
 Requirements:
--python 3.6.12
--tensorflow 2.3.1
--Biopython 1.78
--numpy 
--silence_tensorflow 
+	- python 3.6.12
+	- tensorflow 2.3.1
+	- Biopython 1.78
+	- numpy 
+	- silence_tensorflow 
 
 
 ## Usage
@@ -20,12 +21,12 @@ Requirements:
 ## Examples
 Single mutation:
 ```
-> acdc-nn Q104H  ./profiles/2ocjA.prof ./pdb/2ocj.pdb  A
+> acdc-nn Q104H ./profiles/2ocjA.prof ./pdb/2ocj.pdb A
 0.1735
 ```
 Single mutation with the structure of the mutated protein
 ```
-> acdc-nn V51I  ./profiles/1bsaA.prof ./pdb/1bsa.pdb A  I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A 
+> acdc-nn V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A --inverse I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A 
 0.6103
 ```
 
