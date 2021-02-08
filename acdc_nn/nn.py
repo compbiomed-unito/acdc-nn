@@ -82,48 +82,6 @@ def ACDC(num_H, d, num_3d):
 
 
 
-def most_frequent(List): 
-    dict = {} 
-    count, itm = 0, '' 
-    for item in reversed(List): 
-        dict[item] = dict.get(item, 0) + 1
-        if dict[item] >= count : 
-            count, itm = dict[item], item 
-    return(itm) 
-
-
-def AB(df):
-    mut=[]
-    for j in range(0, df.shape[0]):
-        a=df[1][j][0]+df[1][j][-1]
-        mut.append(a)
-    return mut
-
-
-def avoid_repetition(df, epsi):
-    for p in df[0].unique():
-        pp=df[df[0]==p]
-        for ab in pp['AB'].unique():
-            abc= pp[pp['AB']==ab]
-            if abc.shape[0]>=2 and len(abc['DDG'].unique())!= abc.shape[0]:
-                stro = abc[abc['DDG']==most_frequent(abc['DDG'].to_list())]
-                df['DDG'].loc[stro.index[1]]=stro['DDG'].loc[stro.index[1]]+epsi
-    return df    
- 
-
-def merged_dataset(dr, dr_pdb): 
-    dr['AB'] = AB(dr)   
-    dr_pdb['AB'] = AB(dr_pdb)
-    epsi = 0.0001
-    dr['DDG'] = dr[622]
-    dr_pdb['DDG'] = dr_pdb[2]
-    dr_pdb.drop(2, axis=1)
-    pr = avoid_repetition(dr_pdb, epsi)
-    pr2 = avoid_repetition(dr, epsi)
-    aa = pr2.merge(pr, on=[0, 'DDG', 'AB'], how='inner')
-    return aa
-
-
 def diff(vects):
     x, y = vects
     return (x-y)/2.0
