@@ -172,16 +172,13 @@ def get_drenum_seq2pdb(pdbkcode,pdbfile):
 
 
 
-def takeSecond(elem):
-    return elem[1]
-
 
 def Unified_prof(mut,profile,seq,l_dist_3d):
     pos_mut=int(mut)
     #sequence first
     prof_seq=profseq(pos_mut,profile, seq)
     #the rest of the 3d neigh        
-    l_dist_3d.sort(key = takeSecond)
+    l_dist_3d.sort(key = lambda elem: (elem[1], elem[0]))
     prof_3d=prof3d(pos_mut,l_dist_3d, profile)
     return(prof_seq+prof_3d)
 
