@@ -1,6 +1,6 @@
 # ACDC NN
 
-Breve descrizione, referenza, modifica di Silvia.
+Breve descrizione, referenza, modifica di Silvia e poi di Corrado
 
 ## Installation
 ```
