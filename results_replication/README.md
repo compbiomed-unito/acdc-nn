@@ -1,5 +1,5 @@
 ## Description
-To replicate the paper results, simply run the notebook. The usage of ACDC-NN presented in the notebook is slightly different from the predictor one. Here, we decided to show in great detail how the method works so that the user could have a greater comprehension.
+To replicate the paper results, simply run the notebook. The usage of ACDC-NN presented in the notebook is slightly different from the predictor one. Here, we decided to show in great detail how the method works so that the user could have a deeper comprehension.
 
 ### Directories:
 
