@@ -11,8 +11,9 @@ For further information about the ACDC-NN architecture and properties, please se
 
 ## About this repository
 
-You have the possibility to easily install ACDC-NN on your computer using pip (see commands below). In this version ACDC-NN was trained using all datasets available in the literature. In case you want to replicate the results of our paper you will find a jupyter notebook inside the 'results_replication' folder.  
-
+Here you can find the istructions to easily install ACDC-NN on your computer using pip (see commands below).
+In this version ACDC-NN was trained using all datasets available in the literature.
+In case you want to replicate our paper results you will find a jupyter notebook inside the 'results_replication' folder.
 
 
 ## Installation
