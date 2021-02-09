@@ -1,8 +1,12 @@
 # Content of this folder
 Directories:
+
   -Ssym_cv.mut 
+  
   -pdbs
+  
   -profiles
+  
   -weights_cv
 
 Notebook:
