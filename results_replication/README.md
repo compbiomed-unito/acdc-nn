@@ -12,6 +12,4 @@ Directories:
 Notebook:
 ACDC_NN-reproduce_results.ipynb: notebook with all the code necessary to replicate the results. 
 
-## How to replicate the results in the article
-If the user wants to replicate
-
+The reader that would like to replicate the results we obtained, could simply run the notebook. The usage of ACDC-NN presented in the notebook is slightly different from what one would do if it used it as a predictor. We decided to show in great detail how the method works so that the user could have a greater comprehension.
