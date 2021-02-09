@@ -9,6 +9,12 @@ The  ACDC-NN  model  was  built  so that it can be used to make predictions in t
 
 For further information about the ACDC-NN architecture and properties, please see the related paper (LINK)
 
+## About this repository
+
+You have the possibility to easily install ACDC-NN on your computer using pip (see commands below). In this version ACDC-NN was trained using all datasets available in the literature. In case you want to replicate the results of our paper you will find a jupyter notebook inside the 'results_replication' folder.  
+
+
+
 ## Installation
 ```
 pip install acdc-nn
