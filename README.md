@@ -31,18 +31,20 @@ Requirements:
 
 
 ## Usage
-
+ACDC-NN expects the usage of pdb numbering, not the sequence one.
 
 ## Examples
 Single mutation:
 ```
 > acdc-nn Q104H ./profiles/2ocjA.prof ./pdb/2ocj.pdb A
-0.1735
+0.15008962
 ```
 Single mutation with the structure of the mutated protein
 ```
 > acdc-nn V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A --inverse I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A 
-0.6103
+0.48577148
+> acdc-nn I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A --inverse V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A
+-0.48577148
 ```
 
 NB: In the above example we have specifically chosen two homologous proteins that have similar structure.
