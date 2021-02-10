@@ -25,7 +25,7 @@ pip install acdc-nn
 Requirements:
 <table>
   <tr><th>Requirement</th><th>Minimum tested version</th></tr>
-  <tr><td>python</td><td></td>3.6</tr>
+  <tr><td>python</td><td>3.6</td></tr>
   <tr><td>tensorflow</td><td>2.3.1</td></tr>
   <tr><td>Biopython</td><td>1.78</td></tr>
   <tr><td>numpy</td><td>1.19.5</td></tr>
