@@ -1,0 +1,5 @@
+Q104H	profiles/2ocjA.prof	structures/2ocj.pdb	A
+V51I	profiles/1bsaA.prof	structures/1bsa.pdb	A
+V51I	profiles/1bsaA.prof	structures/1bsa.pdb	A	I51V	profiles/1bniA.prof	structures/1bni.pdb	A
+I51V	profiles/1bniA.prof	structures/1bni.pdb	A
+I51V	profiles/1bniA.prof	structures/1bni.pdb	A	V51I	profiles/1bsaA.prof	structures/1bsa.pdb	A

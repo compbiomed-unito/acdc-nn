@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="acdc-nn", 
-	version="0.0.4",
+	version="0.0.5",
 	author="Giovanni Birolo",
 	author_email="giovanni.birolo@unito.it", #FIXME
 	description="A small example package", #FIXME

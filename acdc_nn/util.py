@@ -1,3 +1,4 @@
+import gzip
 import numpy as np
 from Bio.PDB import *
 from Bio.PDB.Polypeptide import three_to_one, is_aa
@@ -23,12 +24,15 @@ def map_pdb_pos(pp):
     pdb2seq = dict(zip( [str(r.get_id()[1])+r.get_id()[2].strip() for r in reslist], map(str,range(1,len(reslist)+1)) ))
     return seq2pdb, pdb2seq
 
+def magic_open(path):
+    return (gzip.open if path.endswith('.gz') else open)(path, 'rt')
 
-def pdb2info(pdb_file,chain):
+def pdb2info(pdb_file, chain):
     ''' pdb2info(pdb_file) 
     Returns structure, polypeptide '''
     parser=PDBParser(QUIET=True)
-    structure=parser.get_structure('X',pdb_file)
+    with magic_open(pdb_file) as f:
+        structure = parser.get_structure('X', f)
     pchain=structure[0][chain]
     ppb=PPBuilder()
     pp = ppb.build_peptides(pchain, aa_only=False) #[0]
@@ -71,8 +75,7 @@ def getMutCod(mut):
 
 def getProfile(profile_path):
     prof = {}
-    path=profile_path
-    lines = open(profile_path).readlines()
+    lines = magic_open(profile_path).readlines()
     # POS A C D E F G H I K L M N P Q R S T V W Y -
     #aa = lines[0].split()[1:-1]
     aa = lines[0].split()[1:]
@@ -145,32 +148,31 @@ aa_modif={"TRN":"TRP", "CSO":"CYS","M3L":"LYS", "PCA":"GLU"}
 
 
 
-def mk_d_renumb_KseqVpdb_onlyCA(structure):
-    s,d="",{}
-    for res in structure:
-        a3=res.get_resname()
-        if a3 in aa_modif.keys():
-                pass
-        else:
-             	if is_aa(a3):
-                   s+=three_to_one(a3)
-    i=1
-    for residue in structure:
-        t,n,lab=residue.get_id()
-        if t == ' ':
-            d[str(i)]=str(n)+lab.strip()
-            i+=1
+if False:
+    def mk_d_renumb_KseqVpdb_onlyCA(structure):
+        s,d="",{}
+        for res in structure:
+            a3=res.get_resname()
+            if a3 in aa_modif.keys():
+                    pass
+            else:
+                  if is_aa(a3):
+                       s+=three_to_one(a3)
+        i=1
+        for residue in structure:
+            t,n,lab=residue.get_id()
+            if t == ' ':
+                d[str(i)]=str(n)+lab.strip()
+                i+=1
 
 
-def get_drenum_seq2pdb(pdbkcode,pdbfile):
-    chain=pdbkcode[-1]
-    parser=PDBParser(QUIET=True)
-    structure=parser.get_structure('X',pdbfile)
-    if pdbkcode[:-1].lower()=='1lrp': dpos=mk_d_renumb_KseqVpdb_onlyCA(structure[0][chain])
-    else: dpos=mk_d_renumb_KseqVpdb(structure[0][chain])
-    return dpos
-
-
+    def get_drenum_seq2pdb(pdbkcode,pdbfile):
+        chain=pdbkcode[-1]
+        parser=PDBParser(QUIET=True)
+        structure=parser.get_structure('X',pdbfile)
+        if pdbkcode[:-1].lower()=='1lrp': dpos=mk_d_renumb_KseqVpdb_onlyCA(structure[0][chain])
+        else: dpos=mk_d_renumb_KseqVpdb(structure[0][chain])
+        return dpos
 
 
 def Unified_prof(mut,profile,seq,l_dist_3d):

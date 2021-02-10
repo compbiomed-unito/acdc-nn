@@ -23,11 +23,13 @@ pip install acdc-nn
 ```
 
 Requirements:
-	- python 3.6.12
-	- tensorflow 2.3.1
-	- Biopython 1.78
-	- numpy 
-	- silence_tensorflow 
+<table><tr><th>Requirement</th><th>Minimum tested version</th></tr></table>
+- python             >= 3.6
+- tensorflow         >= 2.3.1
+- Biopython          >= 1.78
+- numpy              >= 1.19.5
+- pandas             >= 1.1.5
+- silence_tensorflow >= 1.1.1
 
 
 ## Usage
@@ -36,14 +38,14 @@ ACDC-NN expects the usage of pdb numbering, not the sequence one.
 ## Examples
 Single mutation:
 ```
-> acdc-nn Q104H ./profiles/2ocjA.prof ./pdb/2ocj.pdb A
+> acdc-nn single Q104H ./profiles/2ocjA.prof ./pdb/2ocj.pdb A
 0.15008962
 ```
 Single mutation with the structure of the mutated protein
 ```
-> acdc-nn V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A --inverse I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A 
+> acdc-nn inverse V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A 
 0.48577148
-> acdc-nn I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A --inverse V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A
+> acdc-nn inverse I51V ./profiles/1bniA.prof ./pdb/1bni.pdb A V51I ./profiles/1bsaA.prof ./pdb/1bsa.pdb A
 -0.48577148
 ```
 
