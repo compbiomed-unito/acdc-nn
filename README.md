@@ -31,8 +31,6 @@ Requirements:
   <tr><td>numpy</td><td>1.19.5</td></tr>
   <tr><td>pandas</td><td>1.1.5</td></tr>
   <tr><td>silence_tensorflow</td><td>1.1.1</td></tr>
-  <tr><td></td><td></td></tr>
-  <tr><td></td><td></td></tr>
 </table>
 
 ## Usage
