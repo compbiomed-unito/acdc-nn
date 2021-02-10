@@ -23,14 +23,17 @@ pip install acdc-nn
 ```
 
 Requirements:
-<table><tr><th>Requirement</th><th>Minimum tested version</th></tr></table>
-- python             >= 3.6
-- tensorflow         >= 2.3.1
-- Biopython          >= 1.78
-- numpy              >= 1.19.5
-- pandas             >= 1.1.5
-- silence_tensorflow >= 1.1.1
-
+<table>
+  <tr><th>Requirement</th><th>Minimum tested version</th></tr>
+  <tr><td>python</td><td></td>3.6</tr>
+  <tr><td>tensorflow</td><td>2.3.1</td></tr>
+  <tr><td>Biopython</td><td>1.78</td></tr>
+  <tr><td>numpy</td><td>1.19.5</td></tr>
+  <tr><td>pandas</td><td>1.1.5</td></tr>
+  <tr><td>silence_tensorflow</td><td>1.1.1</td></tr>
+  <tr><td></td><td></td></tr>
+  <tr><td></td><td></td></tr>
+</table>
 
 ## Usage
 ACDC-NN expects the usage of pdb numbering, not the sequence one.
