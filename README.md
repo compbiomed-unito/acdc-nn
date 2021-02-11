@@ -1,23 +1,24 @@
 # ACDC-NN
 
-ACDC-NN is a novel antysymmetric neural network to predict proteins free energy changes upon point variations along the aminoacid sequence.
-The  ACDC-NN  model  was  built  so that it can be used to make predictions in two different ways: 
+ACDC-NN is a novel anti-symmetric neural network to predict proteins free energy changes upon point variations along the amino acid sequence.
+The ACDC-NN model was built so that it can be used to make predictions in two different ways: 
 
-1) when both the wild-type and variant structure are available, these are respectively used as direct and inverse  inputs  so  that  the  network  can  provide a  prediction  that,  by  construction,  is  perfectly antisymmetric ; 
+1. when both the wild-type and variant structure are available, these are respectively used as direct and inverse inputs so that the network can provide a prediction that, by construction, is perfectly antisymmetric ; 
 
-2) when only the wild-type structure is available, as usual,  the  inverse  input  is  created  starting  from the direct one by inverting the variation encoding but preserving the same structure. 
+2. when only the wild-type structure is available, as usual, the inverse input/ is created starting from the direct one by inverting the variation encoding but preserving the same structure. 
 
 For further information about the ACDC-NN architecture and properties, please see the related paper (LINK)
 
 ## About this repository
 
-Here you can find the istructions to easily install ACDC-NN on your computer using pip (see commands below).
-In this version ACDC-NN was trained using all datasets available in the literature without correcting for sequence similarity.
+Here you can find the instructions to easily install ACDC-NN on your computer using pip (see commands below).
+In this version, ACDC-NN was trained using all datasets available in the literature without correcting for sequence similarity.
 In case you want to replicate our paper results you will find a jupyter notebook inside the 'results_replication' folder.
-There ACDC-NN was trained using a 10-fold cross validation taking into account sequence similarity to avoid overfitting.
-
+There ACDC-NN was trained using a 10-fold cross-validation taking into account sequence similarity to avoid overfitting.
 
 ## Installation
+
+We recommend using pip:
 ```
 pip install acdc-nn
 ```
@@ -34,15 +35,13 @@ Requirements:
 </table>
 
 ## Usage
-To predict the change of the folding free energy (DDG) due to a point mutation in a protein sequence, ACDC-NN needs both evolutionary and strutural information about the protein itself. The structural information is from a PDB file. The evolutionary information is from a profile file, simple tab-separated table of the frequencies of each residue in each position in omologous proteins. Positive DDG are destabilizing
-
- 
+To predict the change of the folding free energy (DDG) due to a point mutation in a protein sequence, ACDC-NN needs both evolutionary and structural information about the protein itself. The structural information is from a PDB file. The evolutionary information is from a profile file, simple tab-separated table of the frequencies of each residue in each position in homologous proteins. Positive DDG are destabilizing.
 
 When information is available only for the wild-type protein, the predictor can be run as:
 ```
 acdc-nn single MUT PROF PDB CHAIN
 ```
-where MUT is the point mutation, PROF and PDB are the paths to the profile and PDB files, and CHAIN is the PDB chain where the mutation occurs. MUT is in the form XNY where X is  the wild-type residue, N is the position of the mutation, and Y is the mutated residue. X and Y are given as a one letter amino acid code and N is 1-based and referred to the   the PDB numbering of the relevant chain, and not the position on the sequence. Both PDB and profile files are automatically decompressed when they have a ".gz" extension.
+where MUT is the point mutation, PROF and PDB are the paths to the profile and PDB files, and CHAIN is the PDB chain where the mutation occurs. MUT is in the form XNY where X is the wild-type residue, N is the position of the mutation, and Y is the mutated residue. X and Y are given as a one-letter amino acid code and N is 1-based and referred to the PDB numbering of the relevant chain, and not the position in the sequence. Both PDB and profile files are automatically decompressed when they have a ".gz" extension.
 
 When information is available also for the mutated protein, a better prediction can be got as:
 ```
