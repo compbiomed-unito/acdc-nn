@@ -1,6 +1,6 @@
 # ACDC-NN
 
-ACDC-NN is a novel anti-symmetric neural network to predict proteins free energy changes upon point variations along the amino acid sequence.
+ACDC-NN is a novel antisymmetric neural network to predict proteins free energy changes upon point variations along the amino acid sequence.
 The ACDC-NN model was built so that it can be used to make predictions in two different ways: 
 
 1. when both the wild-type and variant structure are available, these are respectively used as direct and inverse inputs so that the network can provide a prediction that, by construction, is perfectly antisymmetric ; 
