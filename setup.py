@@ -5,10 +5,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="acdc-nn", 
-	version="0.0.5",
+	version="0.0.7",
 	author="Giovanni Birolo",
-	author_email="giovanni.birolo@unito.it", #FIXME
-	description="A small example package", #FIXME
+	author_email="giovanni.birolo@unito.it", 
+	description="A deep learning predictor of protein stability change upon mutation", 
 	long_description=long_description,
 	long_description_content_type="text/markdown",
 	url="https://github.com/compbiomed-unito/acdc-nn",
@@ -23,8 +23,6 @@ setuptools.setup(
 	],
 	package_data={
 		'acdc_nn': ['weights/*']
-		#'tests': ['*'],
-		#'': ['weights/*', 'tests/*'],
 	},
 	classifiers=[
 		"Programming Language :: Python :: 3",

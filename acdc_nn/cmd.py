@@ -72,35 +72,49 @@ def main():
 	or the eight field:
 	MUT WT-PROF WT-PDB WT-CHAIN INV-MUT MT-PROF MT-PDB MT-CHAIN
 	''')
-	parser.add_argument('--output', metavar='OUTFILE', type=argparse.FileType('w'), default=sys.stdout, help='output file path, use stdout otherwise')
+	parser.add_argument('--output', metavar='OUTFILE', 
+		type=argparse.FileType('w'), default=sys.stdout, 
+		help='output file path, use standard output otherwise')
 	parser.add_argument('--weights', metavar='NN-WEIGHTS', 
 		default=resource_filename('acdc_nn', 'weights/full_dataset_TL'), 
 		help='path to the network weights, in tensorflow format') # FIXME what is the name of the format?
-	subparsers = parser.add_subparsers(dest='command', metavar='CMD', required=True)
+	subparsers = parser.add_subparsers(metavar='COMMAND', dest='command', title='COMMAND')
 
 	single_parser = subparsers.add_parser('single', help='predict a single mutation')
 	single_parser.add_argument('wt_mutation', metavar='MUT', help='mutation (e.g. Q339N)')
 	single_parser.add_argument('wt_profile', metavar='PROF', help='profile file path')
 	single_parser.add_argument('wt_structure', metavar='PDB', help='PDB file path')
-	single_parser.add_argument('wt_chain', metavar='CHAIN', help='ID of the PDB chain where the mutation occurs')
+	single_parser.add_argument('wt_chain', metavar='CHAIN', 
+		help='ID of the PDB chain where the mutation occurs')
 
-	inverse_parser = subparsers.add_parser('inverse', help='predict a single mutation using also the inverse structure')
+	inverse_parser = subparsers.add_parser('inverse', 
+		help='predict a single mutation using also the mutated protein information')
 	inverse_parser.add_argument('wt_mutation', metavar='MUT', help='direct mutation (e.g. Q339N)')
-	inverse_parser.add_argument('wt_profile', metavar='WT-PROF', help='profile file path for the wild-type protein')
-	inverse_parser.add_argument('wt_structure', metavar='WT-PDB', help='')
-	inverse_parser.add_argument('wt_chain', metavar='WT-CHAIN', help='')
+	inverse_parser.add_argument('wt_profile', metavar='WT-PROF', 
+		help='profile file path for the wild-type protein')
+	inverse_parser.add_argument('wt_structure', metavar='WT-PDB', 
+		help='PDB path for the wild-type protein')
+	inverse_parser.add_argument('wt_chain', metavar='WT-CHAIN', 
+		help='ID of the wild-type PDB chain where the mutation occurs')
 	inverse_parser.add_argument('mt_mutation', metavar='INV-MUT', help='inverse mutation (e.g. N339Q)')
 	inverse_parser.add_argument('mt_profile', metavar='MT-PROF', help='profile file path for the mutated protein')
-	inverse_parser.add_argument('mt_structure', metavar='MT-PDB', help='PDB file path for the mutated protein')
-	inverse_parser.add_argument('mt_chain', metavar='MT-CHAIN', help='ID of the mutated PDB chain where the mutation occurs')
+	inverse_parser.add_argument('mt_structure', metavar='MT-PDB', 
+		help='PDB file path for the mutated protein')
+	inverse_parser.add_argument('mt_chain', metavar='MT-CHAIN', 
+		help='ID of the mutated PDB chain where the mutation occurs')
 
 	batch_parser = subparsers.add_parser('batch', help='predict a list of mutations from a file')
-	batch_parser.add_argument('mutation_table', metavar='MUT-FILE', type=argparse.FileType('r'), help='tab-separated mutation table')
+	batch_parser.add_argument('mutation_table', metavar='MUT-FILE', type=argparse.FileType('r'), 
+		help='tab-separated mutation table, see later for format guidelines')
 
 	#profile_parser = subparsers.add_parser('profile', help='compute the profile from multiple alignment file') # we could also simply accept a multialn file and make a profile
 	#profile_parser.add_argument('multialn', metavar='ALN-FILE', type=argparse.FileType('r'))
 
 	args = parser.parse_args()
+
+	if args.command is None:
+		parser.error('the following arguments are required: COMMAND')
+	
 	base_arg_list = ['wt_mutation', 'wt_profile', 'wt_structure', 'wt_chain', 'mt_mutation', 'mt_profile', 'mt_structure', 'mt_chain']
 
 	model1, model2 = load_nn(args.weights) # needed by all command
@@ -111,7 +125,6 @@ def main():
 		print(ddg, file=args.output)
 	elif args.command == 'batch':
 		muts = pd.read_csv(args.mutation_table, sep='\t', names=base_arg_list)
-		print(muts)
 		for row, mut in muts.iterrows():
 			# check na values
 			if mut[base_arg_list[:4]].count() < 4:
