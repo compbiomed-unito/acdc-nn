@@ -203,3 +203,7 @@ def prof3d(pos_mut,l_dist_3d, profile):
     unified_prof3d=[x for l in profiles for x in l]
     return unified_prof3d
 
+def bias(direct,inverse):
+  bias=np.mean(direct+inverse)
+  return (bias/2)
+
