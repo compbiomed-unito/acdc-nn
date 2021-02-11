@@ -62,7 +62,16 @@ def predict(model, wt_mutation, wt_profile, wt_structure, wt_chain, mt_mutation,
 	
 
 def main():
-	parser = argparse.ArgumentParser(description='Predict the DDG of one or more mutations.')
+	parser = argparse.ArgumentParser(description='Predict the DDG of point mutations.', epilog='''
+	Notes:
+	Mutations are written as XNY, meaning that the residue X at position N changes to Y. X and Y are given as a one letter amino acid code and 
+	N is 1-based and referred to the the PDB numbering of the relevant chain, and not the position on the sequence.
+	PDB and profile files will be automatically decompressed (by gzip) if the paths end with ".gz".
+	The batch file is a tab-separated table with a row for each mutation. Two row formats are possible, either the four field:
+	MUT PROF PDB CHAIN
+	or the eight field:
+	MUT WT-PROF WT-PDB WT-CHAIN INV-MUT MT-PROF MT-PDB MT-CHAIN
+	''')
 	parser.add_argument('--output', metavar='OUTFILE', type=argparse.FileType('w'), default=sys.stdout, help='output file path, use stdout otherwise')
 	parser.add_argument('--weights', metavar='NN-WEIGHTS', 
 		default=resource_filename('acdc_nn', 'weights/full_dataset_TL'), 
@@ -70,23 +79,23 @@ def main():
 	subparsers = parser.add_subparsers(dest='command', metavar='CMD', required=True)
 
 	single_parser = subparsers.add_parser('single', help='predict a single mutation')
-	single_parser.add_argument('wt_mutation', metavar='MUT', help='mutation in the form Q339N')
-	single_parser.add_argument('wt_profile', metavar='PROF', help='')
-	single_parser.add_argument('wt_structure', metavar='PDB', help='')
-	single_parser.add_argument('wt_chain', metavar='CHAIN', help='')
+	single_parser.add_argument('wt_mutation', metavar='MUT', help='mutation (e.g. Q339N)')
+	single_parser.add_argument('wt_profile', metavar='PROF', help='profile file path')
+	single_parser.add_argument('wt_structure', metavar='PDB', help='PDB file path')
+	single_parser.add_argument('wt_chain', metavar='CHAIN', help='ID of the PDB chain where the mutation occurs')
 
 	inverse_parser = subparsers.add_parser('inverse', help='predict a single mutation using also the inverse structure')
-	inverse_parser.add_argument('wt_mutation', metavar='MUT', help='mutation in the form Q339N')
-	inverse_parser.add_argument('wt_profile', metavar='WT-PROF', help='')
+	inverse_parser.add_argument('wt_mutation', metavar='MUT', help='direct mutation (e.g. Q339N)')
+	inverse_parser.add_argument('wt_profile', metavar='WT-PROF', help='profile file path for the wild-type protein')
 	inverse_parser.add_argument('wt_structure', metavar='WT-PDB', help='')
 	inverse_parser.add_argument('wt_chain', metavar='WT-CHAIN', help='')
-	inverse_parser.add_argument('mt_mutation', metavar='INV-MUT', help='inverse mutation in the form Q339N')
-	inverse_parser.add_argument('mt_profile', metavar='MT-PROF', help='')
-	inverse_parser.add_argument('mt_structure', metavar='MT-PDB', help='')
-	inverse_parser.add_argument('mt_chain', metavar='MT-CHAIN', help='')
+	inverse_parser.add_argument('mt_mutation', metavar='INV-MUT', help='inverse mutation (e.g. N339Q)')
+	inverse_parser.add_argument('mt_profile', metavar='MT-PROF', help='profile file path for the mutated protein')
+	inverse_parser.add_argument('mt_structure', metavar='MT-PDB', help='PDB file path for the mutated protein')
+	inverse_parser.add_argument('mt_chain', metavar='MT-CHAIN', help='ID of the mutated PDB chain where the mutation occurs')
 
 	batch_parser = subparsers.add_parser('batch', help='predict a list of mutations from a file')
-	batch_parser.add_argument('mutation_table', metavar='MUT-FILE', type=argparse.FileType('r'), help='mutation table')
+	batch_parser.add_argument('mutation_table', metavar='MUT-FILE', type=argparse.FileType('r'), help='tab-separated mutation table')
 
 	#profile_parser = subparsers.add_parser('profile', help='compute the profile from multiple alignment file') # we could also simply accept a multialn file and make a profile
 	#profile_parser.add_argument('multialn', metavar='ALN-FILE', type=argparse.FileType('r'))
@@ -101,7 +110,7 @@ def main():
 		ddg = predict(model1, *mutation_args)
 		print(ddg, file=args.output)
 	elif args.command == 'batch':
-		muts = pd.read_csv(args.mutation_table, sep='\s+', names=base_arg_list)
+		muts = pd.read_csv(args.mutation_table, sep='\t', names=base_arg_list)
 		print(muts)
 		for row, mut in muts.iterrows():
 			# check na values
