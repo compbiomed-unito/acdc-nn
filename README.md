@@ -76,8 +76,3 @@ Single mutation with the structure of the mutated protein
 ```
 
 NB: In the above example we have specifically chosen two homologous proteins that have similar structure.
-
-## Cose ancora da fare:
-- scegliere una licenza: GPL / MIT?
-- spiegare come produrre i profili, magari mettere uno script
-- controllare che gli esempio coincidano con tests/test.sh
