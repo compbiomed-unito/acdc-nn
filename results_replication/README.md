@@ -14,9 +14,11 @@ The usage of ACDC-NN presented in the notebook is slightly different from the pr
 
 ### Files:
   -1bz6A_TS_0.mut: set of the myoglobin mutations considering the sequence similarities with the training sets; these mutations can only be tested with the learning set 0;
+  
   -2ocjA_TS_5.mut: set of the p53 mutations considering the sequence similarities with the training sets; these mutations can only be tested with the learning set 5;
 
 ### Notebooks:
   -ACDC_NN-reproduce_results_ssym.ipynb: notebook with all the code necessary to replicate the results on Ssym. 
+  
   -ACDC_NN-reproduce_results_p53_myo.ipynb: notebook with all the code necessary to replicate the results on p53 and myoglobin. 
 
