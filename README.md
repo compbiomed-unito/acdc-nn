@@ -7,7 +7,7 @@ The ACDC-NN model was built so that it can be used to make predictions in two di
 
 2. when only the wild-type structure is available, as usual, the input for the inverse mutation is created starting from the direct one by inverting the variation encoding but preserving the same structure. 
 
-For further information about the ACDC-NN architecture and properties, please see the related paper (LINK)
+For further information about the ACDC-NN architecture and properties, please see the related paper https://doi.org/10.1088/1361-6463/abedfb
 
 ## About this repository
 
