@@ -3,6 +3,7 @@ import numpy as np
 from Bio.PDB import *
 from Bio.PDB.Polypeptide import three_to_one, is_aa
 
+aa_modif={"TRN":"TRP", "CSO":"CYS","M3L":"LYS", "PCA":"GLU"}
 
 def pdb2seq(pp):
     ''' pdb2seq(pp) takes a pdb_structure_chain 
@@ -144,36 +145,6 @@ def get_neigh_ps(mut_pdb,Cangstroms,d_seq2pdb_numb,pdbchain):
     return dist_all
     
 
-aa_modif={"TRN":"TRP", "CSO":"CYS","M3L":"LYS", "PCA":"GLU"}
-
-
-
-if False:
-    def mk_d_renumb_KseqVpdb_onlyCA(structure):
-        s,d="",{}
-        for res in structure:
-            a3=res.get_resname()
-            if a3 in aa_modif.keys():
-                    pass
-            else:
-                  if is_aa(a3):
-                       s+=three_to_one(a3)
-        i=1
-        for residue in structure:
-            t,n,lab=residue.get_id()
-            if t == ' ':
-                d[str(i)]=str(n)+lab.strip()
-                i+=1
-
-
-    def get_drenum_seq2pdb(pdbkcode,pdbfile):
-        chain=pdbkcode[-1]
-        parser=PDBParser(QUIET=True)
-        structure=parser.get_structure('X',pdbfile)
-        if pdbkcode[:-1].lower()=='1lrp': dpos=mk_d_renumb_KseqVpdb_onlyCA(structure[0][chain])
-        else: dpos=mk_d_renumb_KseqVpdb(structure[0][chain])
-        return dpos
-
 
 def Unified_prof(mut,profile,seq,l_dist_3d):
     pos_mut=int(mut)
@@ -184,15 +155,34 @@ def Unified_prof(mut,profile,seq,l_dist_3d):
     prof_3d=prof3d(pos_mut,l_dist_3d, profile)
     return(prof_seq+prof_3d)
 
-def profseq(pos_mut,profile, seq):
+# context = 3 for seq, 2 for 3d
+def profseq(pos_mut,profile, seq, context):
     prof_s=[]
-    for j in range(-2,+3):
+    for j in range(-context, context+1):
         if (pos_mut+j)>=1 and (pos_mut+j) <=len(seq):
             prof_s.append(list(profile[pos_mut+j].values())[:-1])
         else: prof_s.append(list(np.zeros(20)))
     unified_prof_s=[x for l in prof_s for x in l]
     return unified_prof_s
 
+def profile_context(profile, pos, context): # 0-based position
+	idx = list(range(max(0, pos - context), min(profile.shape[0], pos + context + 1)))
+	idx = list(range(pos - context, pos + context + 1))
+	return profile.reindex(index=idx, fill_value=0).drop('-', axis=1).values.flatten()
+
+def prof(kprint,profile,seq):#seq       
+    pos_mut=int(kprint[1:-1])
+    profili=[]
+    for i in range(-3,+4):
+        if (pos_mut+i)>=1 and (pos_mut+i) <len(seq):
+            profili.append(list(profile[pos_mut+i].values())[:-1])
+        else:
+            profili.append(list(np.zeros(20)))
+    unified_prof=[]
+    for j in profili:
+        for i in j:
+            unified_prof.append(i)
+    return(unified_prof)
 
 def prof3d(pos_mut,l_dist_3d, profile):
     profiles=[]
@@ -206,4 +196,3 @@ def prof3d(pos_mut,l_dist_3d, profile):
 def bias(direct,inverse):
   bias=np.mean(direct+inverse)
   return (bias/2)
-
