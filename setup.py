@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="acdc-nn", 
-	version="0.0.7",
+	version="0.0.8",
 	author="Giovanni Birolo",
 	author_email="giovanni.birolo@unito.it", 
 	description="A deep learning predictor of protein stability change upon mutation", 
@@ -20,6 +20,8 @@ setuptools.setup(
 		'Biopython>=1.78',
 		'tensorflow>=2.3.1',
 		'silence_tensorflow>=1.1.1',
+		'click>=7.1.2',
+		'ddgun',
 	],
 	package_data={
 		'acdc_nn': ['weights/*']
@@ -31,7 +33,8 @@ setuptools.setup(
 	],
 	entry_points={
 		'console_scripts': [
-			'acdc-nn=acdc_nn.cmd:main',
+			#'acdc-nn=acdc_nn.cmd:main',
+			'acdc-nn=acdc_nn.cli:cli',
 		],
 	}
 )

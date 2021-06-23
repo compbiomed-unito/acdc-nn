@@ -63,7 +63,7 @@ def invert_keyval(din):
 def getMutCod(mut):
     code=list(np.zeros(20))
     d = {'A': 0, 'C': 1, 'D': 2,'E':3,'F':4,'G':5,'H':6,'I':7,'K':8,'L':9,
-      'M':10,'N':11,'P':12,'Q':13,'R':14,'S':15,'T':16,'V':17,'W':18,'Y':19}
+    	'M':10,'N':11,'P':12,'Q':13,'R':14,'S':15,'T':16,'V':17,'W':18,'Y':19}
     w=mut[0]
     m=mut[-1]
     pos_w=d[w]
@@ -149,26 +149,21 @@ def get_neigh_ps(mut_pdb,Cangstroms,d_seq2pdb_numb,pdbchain):
 def Unified_prof(mut,profile,seq,l_dist_3d):
     pos_mut=int(mut)
     #sequence first
-    prof_seq=profseq(pos_mut,profile, seq)
+    prof_seq=profseq(pos_mut, profile, seq)
     #the rest of the 3d neigh        
     l_dist_3d.sort(key = lambda elem: (elem[1], elem[0]))
     prof_3d=prof3d(pos_mut,l_dist_3d, profile)
     return(prof_seq+prof_3d)
 
 # context = 3 for seq, 2 for 3d
-def profseq(pos_mut,profile, seq, context):
+def profseq(pos_mut,profile, seq):
     prof_s=[]
-    for j in range(-context, context+1):
+    for j in range(-2, +3):
         if (pos_mut+j)>=1 and (pos_mut+j) <=len(seq):
             prof_s.append(list(profile[pos_mut+j].values())[:-1])
         else: prof_s.append(list(np.zeros(20)))
     unified_prof_s=[x for l in prof_s for x in l]
     return unified_prof_s
-
-def profile_context(profile, pos, context): # 0-based position
-	idx = list(range(max(0, pos - context), min(profile.shape[0], pos + context + 1)))
-	idx = list(range(pos - context, pos + context + 1))
-	return profile.reindex(index=idx, fill_value=0).drop('-', axis=1).values.flatten()
 
 def prof(kprint,profile,seq):#seq       
     pos_mut=int(kprint[1:-1])
@@ -196,3 +191,44 @@ def prof3d(pos_mut,l_dist_3d, profile):
 def bias(direct,inverse):
   bias=np.mean(direct+inverse)
   return (bias/2)
+
+import pandas
+from warnings import warn
+# profile functions
+aa1 = pandas.Index(list('ACDEFGHIKLMNPQRSTVWY')) # standard 20 amino acids
+def load_profile(path_or_file):
+	df = pandas.read_csv(path_or_file, sep=None, engine='python') # python engine needed for automatic detection of separator
+
+	# check columns
+	missing_aa = aa1.difference(df.columns)
+	if len(missing_aa) > 0:
+		raise ValueError('Missing AA columns in profile table: ' + ', '.join(missing_aa))
+	unknown_cols = df.columns.difference(aa1).difference(['POS', 'SEQ', '-'])
+	if len(unknown_cols) > 0:
+		warn("Found unknown columns in profile table: " + ", ".join(unknown_cols))
+
+	# check position column if any
+	if 'POS' in df.columns:
+		if 'POS' != df.columns[0]:
+			warn("Found 'POS' column in profile but not in first position")
+		if (df['POS'].astype(int) - df['POS'] != 0).any():
+		#if df['POS'].values.kind not in ('i', 'u'):
+			raise ValueError("Found 'POS' column in profile but it is not an integer")
+		df = df.set_index('POS')
+		
+	if df.index[0] == 0: # 0-based, change into 1-based position
+		warn("Found zero-based positions, adding 1")
+		df.index = df.index + 1
+
+	return df
+			
+def profile_context(profile, pos: int, context: int): # position is based on table index
+	'''Extract local subset of profile.
+
+	profile: protein profile as pandas DataFrame
+	pos: protein position
+	context: number of position to add around pos
+	'''
+	
+	idx = list(range(pos - context, pos + context + 1))
+	return profile.reindex(index=idx, columns=aa1, fill_value=0).values.flatten()

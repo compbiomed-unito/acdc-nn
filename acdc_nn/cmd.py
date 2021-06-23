@@ -14,7 +14,7 @@ import functools
 def load_nn(weight_path):
 	num_H=[32,16]
 	d=0.2
-	model1, model2 = nn.ACDC(num_H,d,25)
+	model1, model2 = nn.build_acdc_3d(num_H,d,25)
 	weight_path = resource_filename('acdc_nn', 'weights/full_dataset_TL')
 	model1.load_weights(weight_path)
 	return model1, model2
@@ -54,8 +54,8 @@ def predict(model, wt_mutation, wt_profile, wt_structure, wt_chain, mt_mutation,
 			to_predict_inv = compute_nn_input(mt_mutation, mt_prot)
 	
 		# Making input in the proper shape 
-		Xm_d, X1D_d, X3D_d = nn.mkInp(np.asarray(to_predict_dir).astype(np.float32), 500)
-		Xm_i, X1D_i, X3D_i = nn.mkInp(np.asarray(to_predict_inv).astype(np.float32), 500)
+		Xm_d, X1D_d, X3D_d = nn.mkInp_3d(np.asarray(to_predict_dir).astype(np.float32), 500)
+		Xm_i, X1D_i, X3D_i = nn.mkInp_3d(np.asarray(to_predict_inv).astype(np.float32), 500)
 
 		prediction = model.predict([X3D_d, X1D_d, Xm_d , X3D_i, X1D_i, Xm_i])
 		return prediction[0][0][0]
