@@ -45,7 +45,7 @@ acdc-nn seq SUB PROFILE
 
 When information is available only for the wild-type protein, the predictor can be run as:
 ```
-acdc-nn single SUB PROFILE PDB CHAIN
+acdc-nn struct SUB PROFILE PDB CHAIN
 ```
 where SUB is the point substitution, PROFILE and PDB are the paths to the profile and PDB files, and CHAIN is the PDB chain where the substitution occurs. SUB is in the form XNY where X is the wild-type residue, N is the position of the substitution, and Y is the mutated residue. X and Y are given as a one-letter amino acid code and N is 1-based and referred to the PDB numbering of the relevant chain, and not the position in the sequence. Both PDB and profile files are automatically decompressed when they have a ".gz" extension.
 
