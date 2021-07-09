@@ -78,19 +78,24 @@ These examples use the data in the tests directory of the github repository.
 No structure available:
 ```
 > acdc-nn seq Q104H tests/profiles/2ocjA.prof.gz
+
 0.06451824
 ```
 
 Single substitution:
 ```
 > acdc-nn struct Q104H tests/profiles/2ocjA.prof.gz tests/structures/2ocj.pdb.gz A
+
 0.15008962
 ```
 Single substitution with the structure of the mutated protein
 ```
 > acdc-nn istruct V51I tests/profiles/1bsaA.prof.gz tests/structures/1bsa.pdb.gz A I51V tests/profiles/1bniA.prof.gz tests/structures/1bni.pdb.gz A
+
 0.48577148
+
 > acdc-nn istruct I51V tests/profiles/1bniA.prof.gz tests/structures/1bni.pdb.gz A V51I tests/profiles/1bsaA.prof.gz tests/structures/1bsa.pdb.gz A
+
 -0.48577148
 ```
 

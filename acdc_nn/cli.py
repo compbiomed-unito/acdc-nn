@@ -94,7 +94,7 @@ Uses a trained ACDC-NN that requires protein structural information.'''
 
 
 # caching for functions
-@functools.lru_cache
+@functools.lru_cache()
 def load_nn(seq):
 	return acdc_nn.ACDCSeq() if seq else acdc_nn.ACDC3D()
 
