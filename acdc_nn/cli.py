@@ -1,5 +1,5 @@
-from . import acdc_nn
-from . import util
+from acdc_nn import acdc_nn
+from acdc_nn import util
 import ddgun
 
 import click

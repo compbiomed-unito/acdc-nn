@@ -1,8 +1,8 @@
 import sys
 import argparse
 
-from . import util
-from . import nn
+from acdc_nn import util
+from acdc_nn import nn
 
 import numpy as np
 import pandas as pd
