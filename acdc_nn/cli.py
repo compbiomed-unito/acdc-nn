@@ -94,15 +94,15 @@ Uses a trained ACDC-NN that requires protein structural information.'''
 
 
 # caching for functions
-@functools.lru_cache()
+@functools.lru_cache(10)
 def load_nn(seq):
 	return acdc_nn.ACDCSeq() if seq else acdc_nn.ACDC3D()
 
-@functools.lru_cache
+@functools.lru_cache(100)
 def load_prot_seq(profile):
 	return ddgun.Profile(profile)
 
-@functools.lru_cache
+@functools.lru_cache(100)
 def load_prot_3d(profile, pdb, chain):
 	return util.getProfile(profile), acdc_nn.Structure(pdb, chain) #FIXME use Profile
 
