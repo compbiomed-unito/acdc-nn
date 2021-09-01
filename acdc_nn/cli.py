@@ -75,7 +75,7 @@ Uses a trained ACDC-NN that requires protein structural information.'''
 @click.argument("ipdb", type=click.Path(exists=True, readable=True))
 @click.argument("ichain")
 #@click.option('--inverse', type=(Substitution(), click.Path(exists=True, readable=True), click.Path(exists=True, readable=True), str), help=')
-def istruct(sub, profile, pdb, chain):  #FIXME add inverse mut 
+def istruct(sub, profile, pdb, chain, isub, iprofile, ipdb, ichain):
 	'''Predict DDG using both the wild-type and mutated protein structures.
 
 \b
@@ -88,8 +88,10 @@ ISUB, IPROFILE, IPDB and ICHAIN are the same for the mutated protein.
 Uses a trained ACDC-NN that requires protein structural information.'''
 	wt_prof = util.getProfile(profile)  #FIXME use Profile
 	wt_struct = acdc_nn.Structure(pdb, chain)
+	mt_prof = util.getProfile(iprofile)  #FIXME use Profile
+	mt_struct = acdc_nn.Structure(ipdb, ichain)
 	net = acdc_nn.ACDC3D()
-	ddg = net.predict(str(sub), wt_prof, wt_struct)
+	ddg = net.predict(str(sub), wt_prof, wt_struct, str(isub), mt_prof, mt_struct)
 	click.echo(ddg)
 
 
