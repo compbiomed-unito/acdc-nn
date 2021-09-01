@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
 	name="acdc-nn", 
-	version="0.0.10",
+	version="0.0.11",
 	author="Giovanni Birolo",
 	author_email="giovanni.birolo@unito.it", 
 	description="A deep learning predictor of protein stability change upon mutation", 
