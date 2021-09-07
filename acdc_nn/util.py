@@ -82,7 +82,9 @@ def getProfile(profile_path):
     aa = lines[0].split()[1:]
     for line in lines[1:]:
          v = line.split()
-         prof[int(v[0])]= dict(zip(aa, map(float,v[1:])))
+         if aa[-1] == 'SEQ':
+            v = v[:-1]
+         prof[int(v[0])] = dict(zip(aa, map(float,v[1:])))
     return prof
 
 
