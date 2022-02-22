@@ -42,6 +42,7 @@ To predict the change of the folding free energy (DDG) due to a point substituti
 When no structural information is available, the sequence-based ACDC-NN Seq network must be used:
 ```
 acdc-nn seq SUB PROFILE
+```
 
 When information is available only for the wild-type protein, the predictor can be run as:
 ```
