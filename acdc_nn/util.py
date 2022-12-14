@@ -1,7 +1,13 @@
 import gzip
 import numpy as np
 from Bio.PDB import *
-from Bio.PDB.Polypeptide import three_to_one, is_aa
+try:
+    from Bio.PDB.Polypeptide import protein_letters_3to1
+    def three_to_one(s):
+        return protein_letters_3to1[s]
+except ImportError:
+    from Bio.PDB.Polypeptide import three_to_one
+from Bio.PDB.Polypeptide import is_aa
 
 aa_modif={"TRN":"TRP", "CSO":"CYS","M3L":"LYS", "PCA":"GLU"}
 
