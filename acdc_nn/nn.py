@@ -1,6 +1,9 @@
 from silence_tensorflow import silence_tensorflow
 silence_tensorflow()
 
+import tensorflow
+tensorflow.get_logger().setLevel('ERROR')
+
 #from tensorflow import keras
 from tensorflow.keras import layers
 #from tensorflow.keras.layers import Lambda, Dense, Input, Dropout, Activation, Flatten, BatchNormalization, Dropout
@@ -98,9 +101,10 @@ def build_acdc_seq(num_H, d):
     out_av = layers.Lambda(avout, output_shape=avout_shape, name="out_av")([net_dir, net_inv])
     
     net_dir_inv = Model([ input_env1D, inputMut, input_env1D_i, inputMut_i],[out_d, out_av])
-    net_dir_inv.compile(optimizer='Adam',
-              loss=['logcosh', abs_loss],
-              loss_weights=[1., 1.] )
+    if False: # compilation is probably not needed for prediction, only for training
+        net_dir_inv.compile(optimizer='Adam',
+                  loss=['logcosh', abs_loss],
+                  loss_weights=[1., 1.] )
     return net_dir_inv
 
 
@@ -169,9 +173,10 @@ def build_acdc_3d(num_H, d, num_3d):
     net_dir_inv = Model([input_env3D, input_env1D, inputMut, input_env3D_i, input_env1D_i, inputMut_i],[out_d, out_av])
     # partial model, to use only one flow either direct or inverse
     net_DDG = Model([input_env3D, input_env1D, inputMut],[net_dir])
-    net_dir_inv.compile(optimizer='adam',
-              loss=['logcosh', abs_loss],
-              loss_weights=[1., 1.] )
+    if False: # compilation is probably not needed for prediction, only for training
+        net_dir_inv.compile(optimizer='adam',
+                  loss=['logcosh', abs_loss],
+                  loss_weights=[1., 1.] )
     return net_dir_inv, net_DDG
 
 
