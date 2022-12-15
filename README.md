@@ -101,3 +101,17 @@ Single substitution with the structure of the mutated protein
 ```
 
 NB: In the above example we have specifically chosen two homologous proteins that have similar structure.
+
+## Profile creation
+Profile files needed by ACDC-NN can be created using HH-suite, an open-source software package for sensitive protein sequence searching, freely available at https://github.com/soedinglab/hh-suite. Prepackaged sequence databases are also available from the same repository. Once you download the suite and one database, you can generate the profile in two steps. 
+First, a multiple alignment file is generated running the following command:
+```
+./hhsuite/bin/hhblits -d UniRef30_2020_06_hhsuite/UniRef30_2020_06 -i PROT.fasta -cpu THREADS -n 2 -opsi
+```
+where PROT.fasta is your protein sequence, hhblits is the executable command from the HH-Suite and UniRef30_2020_06_hhsuite/UniRef30_2020_06 is one of the available sequence databases. This should generate a ".msa.psi" file, which contains all the alignments to similiar protein sequences in the database. 
+
+These alignments needs to be converted to a profile (a table of frequences) that is readable by ACDC-NN. For this second step, you can use a small python package named ddgun. If you installed ACDC-NN via pip, it should already be installed. If not you can get it with pip (pip install ddgun). The conversion command is the following:
+```
+ddgun mkprof FILE.msa.psi
+```
+which should yield the profile file needed by ACDC-NN.
